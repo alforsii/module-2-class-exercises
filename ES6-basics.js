@@ -101,3 +101,41 @@ function showMovie(title, year, ...actors) {
 }
 
 showMovie('Titanic', '1997', 'Leonardo Di Caprio', 'Kate Winslet');
+
+//4.Class
+class Counter {
+  constructor() {
+    this.count = 1;
+  }
+
+  countUp() {
+    setInterval(function() {
+      this.count++; //<== NaN
+      console.log(this.constructor.name); // => Window
+    }, 1000);
+  }
+}
+
+var myCounter = new Counter();
+// myCounter.countUp();
+
+//5.Default parameters
+// ES6 gives us a way to set default function parameters. Any parameters with a default value are considered to be optional.
+
+// Examples
+
+// In the following example, the second parameter is optional.
+
+function inc(number, increment = 1) {
+  return number + increment;
+}
+console.log(inc(2, 2)); // 4
+console.log(inc(2)); // 3
+
+// You can also set default values for parameters that appear before arguments without default values:
+
+function sum(a, b = 2, c) {
+  return a + b + c;
+}
+console.log(sum(1, 5, 10)); // 16 -> b === 5
+console.log(sum(1, undefined, 10)); // 13 -> b as default
