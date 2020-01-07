@@ -62,16 +62,42 @@ console.log(second); // <== five
 let [a, b = 2, c, d = 1] = [3, 4];
 console.log(a, b, c, d);
 
+//3.Spread Operator
 const reptiles = ['snake', 'lizard', 'alligator'];
 const mammals = ['puppy', 'kitten', 'bunny'];
 
-const animals = [];
-animals.concat(mammals);
+//concat
+const animals = [...reptiles, ...mammals];
 console.log(animals);
 
+//Advanced
+// Rest Parameters - Other uses of the Spread Operator
 function add() {
   return [...arguments].reduce((sum, next) => sum + next);
 }
 
-add(1, 2, 3);
+add(1, 2, 3); // <== 6
 console.log('Output for: add(1, 2, 3)', add(1, 2, 3));
+
+//or
+function add2(...numbers) {
+  // numbers is the name for the array
+  return numbers.reduce((sum, next) => {
+    return sum + next;
+  });
+}
+
+add2(1, 2, 5, 8); // <== 16
+console.log('Output for: add (1,2,5,8)', add2(1, 2, 5, 8));
+
+// ❗We can choose to get the first parameters as variables and gather only the rest.
+
+// Here the first two arguments go into variables and the rest go into movies array:
+
+function showMovie(title, year, ...actors) {
+  console.log(
+    `${title} is released in ${year} and in the cast are: ${actors[0]} and ${actors[1]}.`
+  );
+}
+
+showMovie('Titanic', '1997', 'Leonardo Di Caprio', 'Kate Winslet');
