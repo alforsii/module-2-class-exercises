@@ -1,0 +1,817 @@
+Last login: Tue Jan  7 13:09:40 on ttys005
+➜  ~ mongo
+
+//-------------------------------------------------------
+> show dbs
+My-first-database  0.000GB
+admin              0.000GB
+config             0.000GB
+local              0.000GB
+
+//-------------------------------------------------------
+> use My-first-database
+switched to db My-first-database
+
+//-------------------------------------------------------
+> db
+My-first-database
+
+//-------------------------------------------------------
+>  show collections
+First-collection
+
+//-------------------------------------------------------
+> db.enemies.insertOne({
+...     "name": "Blinky",
+...     "color": "Red"
+... })
+
+//returns
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("5e151f6796dcb9bfc00e0375")
+}
+//-------------------------------------------------------
+> db
+My-first-database
+
+//-------------------------------------------------------
+> show collections
+First-collection
+enemies
+//-------------------------------------------------------
+> db.enemies
+My-first-database.enemies
+//-------------------------------------------------------
+> db.enemies.insertOne({
+...     "_id": 10,
+...     "name": "Pinky",
+...     "color": "Pink",
+...     "status": "alive"
+... })
+//returns
+{ "acknowledged" : true, "insertedId" : 10 }
+//-------------------------------------------------------
+> db.enemies.insertMany([
+...      {
+...         "name": "Inky",
+...         "color": "Cyan",
+...      },
+...      {
+...         "name": "Clyde",
+...         "color": "Orange"
+...      }
+... ])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("5e15206096dcb9bfc00e0376"),
+		ObjectId("5e15206096dcb9bfc00e0377")
+	]
+}
+//-------------------------------------------------------
+> db.enemies.find({})
+{ "_id" : ObjectId("5e151f6796dcb9bfc00e0375"), "name" : "Blinky", "color" : "Red" }
+{ "_id" : 10, "name" : "Pinky", "color" : "Pink", "status" : "alive" }
+{ "_id" : ObjectId("5e15206096dcb9bfc00e0376"), "name" : "Inky", "color" : "Cyan" }
+{ "_id" : ObjectId("5e15206096dcb9bfc00e0377"), "name" : "Clyde", "color" : "Orange" }
+//-------------------------------------------------------
+> db.enemies.find({}).pretty()
+{
+	"_id" : ObjectId("5e151f6796dcb9bfc00e0375"),
+	"name" : "Blinky",
+	"color" : "Red"
+}
+{ "_id" : 10, "name" : "Pinky", "color" : "Pink", "status" : "alive" }
+{
+	"_id" : ObjectId("5e15206096dcb9bfc00e0376"),
+	"name" : "Inky",
+	"color" : "Cyan"
+}
+{
+	"_id" : ObjectId("5e15206096dcb9bfc00e0377"),
+	"name" : "Clyde",
+	"color" : "Orange"
+}
+//-------------------------------------------------------
+> db.enemies.find()
+{ "_id" : ObjectId("5e151f6796dcb9bfc00e0375"), "name" : "Blinky", "color" : "Red" }
+{ "_id" : 10, "name" : "Pinky", "color" : "Pink", "status" : "alive" }
+{ "_id" : ObjectId("5e15206096dcb9bfc00e0376"), "name" : "Inky", "color" : "Cyan" }
+{ "_id" : ObjectId("5e15206096dcb9bfc00e0377"), "name" : "Clyde", "color" : "Orange" }
+//-------------------------------------------------------
+> db.enemies.find().pretty()
+{
+	"_id" : ObjectId("5e151f6796dcb9bfc00e0375"),
+	"name" : "Blinky",
+	"color" : "Red"
+}
+{ "_id" : 10, "name" : "Pinky", "color" : "Pink", "status" : "alive" }
+{
+	"_id" : ObjectId("5e15206096dcb9bfc00e0376"),
+	"name" : "Inky",
+	"color" : "Cyan"
+}
+{
+	"_id" : ObjectId("5e15206096dcb9bfc00e0377"),
+	"name" : "Clyde",
+	"color" : "Orange"
+}
+//-------------------------------------------------------
+> db.enemies.find({"name": "Blinky"})
+{ "_id" : ObjectId("5e151f6796dcb9bfc00e0375"), "name" : "Blinky", "color" : "Red" }
+//-------------------------------------------------------
+> use test1
+switched to db test1
+//-------------------------------------------------------
+> db.createCollection('posts')
+{ "ok" : 1 }
+//-------------------------------------------------------
+> show collections
+posts
+//-------------------------------------------------------
+> db.posts.insert({title:'Post one',body: 'Body of post one',category: 'News',likes: 4, tags: ['news', 'events'],user: { name: 'Jone Doe',status: 'author}, date: Date()})
+2020-01-07T20:13:07.361-0500 E  QUERY    [js] uncaught exception: SyntaxError: '' literal not terminated before end of script :
+@(shell):1:168
+//-------------------------------------------------------
+> db.posts.insert({
+...   title: 'Post one',
+...   body: 'Body of post one',
+...   category: 'News',
+...   likes: 4,
+...   tags: ['news', 'events'],
+...   user: { name: 'Jone Doe', status: 'author' },
+...   date: Date(),
+... });
+WriteResult({ "nInserted" : 1 })
+>
+//-------------------------------------------------------
+> db.posts.insertMany([
+...   {
+...     title: 'Post two',
+...     body: 'Body of post two',
+...     category: 'Technology',
+...     date: Date(),
+...   },
+...   {
+...     title: 'Post three',
+...     body: 'Body of post three',
+...     category: 'News',
+...     date: Date(),
+...   },
+...   {
+...     title: 'Post four',
+...     body: 'Body of post four',
+...     category: 'Entertainment',
+...     date: Date(),
+...   },
+... ]);
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("5e152e1896dcb9bfc00e0379"),
+		ObjectId("5e152e1896dcb9bfc00e037a"),
+		ObjectId("5e152e1896dcb9bfc00e037b")
+	]
+}
+//-------------------------------------------------------
+> db.posts.find()
+{ "_id" : ObjectId("5e152d1496dcb9bfc00e0378"), "title" : "Post one", "body" : "Body of post one", "category" : "News", "likes" : 4, "tags" : [ "news", "events" ], "user" : { "name" : "Jone Doe", "status" : "author" }, "date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)" }
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e0379"), "title" : "Post two", "body" : "Body of post two", "category" : "Technology", "date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)" }
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e037a"), "title" : "Post three", "body" : "Body of post three", "category" : "News", "date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)" }
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e037b"), "title" : "Post four", "body" : "Body of post four", "category" : "Entertainment", "date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)" }
+//-------------------------------------------------------
+> db.posts.find().pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find({ category: 'News' })
+{ "_id" : ObjectId("5e152d1496dcb9bfc00e0378"), "title" : "Post one", "body" : "Body of post one", "category" : "News", "likes" : 4, "tags" : [ "news", "events" ], "user" : { "name" : "Jone Doe", "status" : "author" }, "date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)" }
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e037a"), "title" : "Post three", "body" : "Body of post three", "category" : "News", "date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)" }
+//-------------------------------------------------------
+> db.posts.find({ category: 'News' }).pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find().sort({ title: 1 }).pretty()
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find().sort({ title: -1 }).pretty()
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find({ category: 'News' }).count()
+2
+//-------------------------------------------------------
+> db.posts.find().limit(2)
+{ "_id" : ObjectId("5e152d1496dcb9bfc00e0378"), "title" : "Post one", "body" : "Body of post one", "category" : "News", "likes" : 4, "tags" : [ "news", "events" ], "user" : { "name" : "Jone Doe", "status" : "author" }, "date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)" }
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e0379"), "title" : "Post two", "body" : "Body of post two", "category" : "Technology", "date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)" }
+//-------------------------------------------------------
+> db.posts.find().limit(2).pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find().limit(1).pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find().sort({ title: -1}).limit(2).pretty()
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.find().sort({ title: 1}).limit(2).pretty()
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+
+//-------------------------------------------------------
+> db.posts.find().forEach(function(doc) { print('Blog Post: ' +doc.title)})
+Blog Post: Post one
+Blog Post: Post two
+Blog Post: Post three
+Blog Post: Post four
+
+> db.posts.findOne({category: 'News'})
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.update({title: 'Post Two'},
+...     {
+...         title: 'Post Two',
+...         body: 'New post 2 body',
+...         date: Date()
+...     },
+...     {
+...         upsert: true
+...     }
+... )
+WriteResult({
+	"nMatched" : 0,
+	"nUpserted" : 1,
+	"nModified" : 0,
+	"_id" : ObjectId("5e15360e69dfbba63516a0a1")
+})
+
+> db.posts.find().pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post two",
+	"body" : "Body of post two",
+	"category" : "Technology",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e15360e69dfbba63516a0a1"),
+	"title" : "Post Two",
+	"body" : "New post 2 body",
+	"date" : "Tue Jan 07 2020 20:53:18 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.update({title: 'Post two'},
+...     {
+...         title: 'Post Two',
+...         body: 'New post 2 body',
+...         date: Date()
+...     },
+...     {
+...         upsert: true
+...     }
+... )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.posts.find().pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post Two",
+	"body" : "New post 2 body",
+	"date" : "Tue Jan 07 2020 20:55:31 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e15360e69dfbba63516a0a1"),
+	"title" : "Post Two",
+	"body" : "New post 2 body",
+	"date" : "Tue Jan 07 2020 20:53:18 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.update({title: 'Post Two'},
+...     {
+...         $set: {
+...             body: 'Body of post 2',
+...             category: 'Technology'
+...         }
+...     },
+... )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.posts.find().pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 4,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post Two",
+	"body" : "Body of post 2",
+	"date" : "Tue Jan 07 2020 20:55:31 GMT-0500 (EST)",
+	"category" : "Technology"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037a"),
+	"title" : "Post three",
+	"body" : "Body of post three",
+	"category" : "News",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e037b"),
+	"title" : "Post four",
+	"body" : "Body of post four",
+	"category" : "Entertainment",
+	"date" : "Tue Jan 07 2020 20:19:20 GMT-0500 (EST)"
+}
+{
+	"_id" : ObjectId("5e15360e69dfbba63516a0a1"),
+	"title" : "Post Two",
+	"body" : "New post 2 body",
+	"date" : "Tue Jan 07 2020 20:53:18 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.update({title: 'Post one'},{$inc:{likes: 2}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.posts.find({title: 'Post one'}).pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"likes" : 6,
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)"
+}
+//-------------------------------------------------------
+> db.posts.update({title: 'Post one'},{$rename:{likes: 'views'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.posts.find({title: 'Post one'}).pretty()
+{
+	"_id" : ObjectId("5e152d1496dcb9bfc00e0378"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)",
+	"views" : 6
+}
+//------------------------------------------------------
+>db.posts.update({title: 'Post one'},
+{
+	$set: {
+        comments: [
+            {
+            user: 'Mary Williams',
+            body: 'Comment One',
+            date: Date()
+            },
+            {
+            user: 'Harry White',
+            body: 'Comment Two',
+            date: Date()
+            },
+        ]
+    }
+}
+)
+
+> db.posts.findOne({title: 'Post one'})
+{
+	"_id" : ObjectId("5e153ae56a24fc584537501a"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		}
+	]
+}
+
+//------------------------------------------------------
+>db.posts.find({
+    comments: {
+        $elemMatch: {
+            user: 'Mary Williams'
+        }
+    }
+}).pretty()
+
+{
+	"_id" : ObjectId("5e153ae56a24fc584537501a"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		}
+	]
+}
+
+//------------------------------------------------------
+> db.posts.createIndex({title: 'text'})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+
+//------------------------------------------------------
+>db.posts.find({
+    $text: {
+        $search: "\"Post o\""
+    }
+}).pretty()
+{
+	"_id" : ObjectId("5e153ae56a24fc584537501a"),
+	"title" : "Post one",
+	"body" : "Body of post one",
+	"category" : "News",
+	"tags" : [
+		"news",
+		"events"
+	],
+	"user" : {
+		"name" : "Jone Doe",
+		"status" : "author"
+	},
+	"date" : "Tue Jan 07 2020 20:15:00 GMT-0500 (EST)",
+	"views" : 6,
+	"comments" : [
+		{
+			"user" : "Mary Williams",
+			"body" : "Comment One",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		},
+		{
+			"user" : "Harry White",
+			"body" : "Comment Two",
+			"date" : "Tue Jan 07 2020 21:34:58 GMT-0500 (EST)"
+		}
+	]
+}
+
+>db.posts.find({
+    $text: {
+        $search: "\"Post T\""
+    }
+}).pretty()
+
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e037a"), "title" : "Post Three" }
+{
+	"_id" : ObjectId("5e152e1896dcb9bfc00e0379"),
+	"title" : "Post Two",
+	"body" : "New post 2 body",
+	"date" : "Tue Jan 07 2020 21:23:43 GMT-0500 (EST)"
+}
+
+//---------------------------
+Mongo Operators	Description
+$eq	----equal to
+$ne	----not equal to
+$gt	----greater than
+$gte ---greater than equal
+$lt	----less than
+$lte ---less than equal
+
+//---------------$gt - greater than-----------------------
+> db.posts.find({views: { $gt:10}})
+{ "_id" : ObjectId("5e152e1896dcb9bfc00e037b"), "title" : "Post Four", "views" : 12 }
