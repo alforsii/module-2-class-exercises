@@ -21,12 +21,12 @@
 // Notes
 // 0 <= angle <= 360
 
-// var whatTimeIsIt = function(angle) {
-//   // Your code here
-//   let hr = angle / 30;
-//   //   let mns =
-//   return hr;
-// };
+var whatTimeIsIt = function(angle) {
+  // Your code here
+  let h = ~~(angle / 30),
+    m = ~~((angle % 30) * 2);
+  return `${h == 0 ? 12 : h > 9 ? h : '0' + h}:${m > 9 ? m : '0' + m}`;
+};
 
-// whatTimeIsIt(90);
-// console.log(whatTimeIsIt(90));
+whatTimeIsIt(90);
+console.log(whatTimeIsIt(118));

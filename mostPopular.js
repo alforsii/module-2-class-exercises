@@ -87,18 +87,32 @@ const trashBins = {
   black: [],
 };
 
-trash.forEach(tr => {
-  if (tr.material === 'paper' && tr.dirty === false) {
-    trashBins.blue.push(tr.name);
-  } else if (
-    tr.material === 'plastic' ||
-    (tr.material === 'metal' && tr.dirty === false)
-  ) {
-    trashBins.yellow.push(tr.name);
-  } else if (tr.material === 'glass' && tr.dirty === false) {
-    trashBins.green.push(tr.name);
-  } else {
-    trashBins.black.push(tr.name);
-  }
-});
+//1.
+// trash.forEach(tr => {
+//   if (tr.material === 'paper' && tr.dirty === false) {
+//     trashBins.blue.push(tr.name);
+//   } else if (
+//     tr.material === 'plastic' ||
+//     (tr.material === 'metal' && tr.dirty === false)
+//   ) {
+//     trashBins.yellow.push(tr.name);
+//   } else if (tr.material === 'glass' && tr.dirty === false) {
+//     trashBins.green.push(tr.name);
+//   } else {
+//     trashBins.black.push(tr.name);
+//   }
+// });
+
+//2.
+// trash.forEach(tr => {
+//   if (tr.material === 'paper' && tr.dirty === false) {
+//     trashBins.blue.push(tr.name);
+//   } else {
+//     trashBins[binColorMap[tr.material]].push(tr.name);
+//   }
+// });
+
+//3.
+// trash.reduce((acc,val) => val.dirty? (acc.black.push(val.name)): (acc[binColorMap[val.material]].push(val.name)))
+
 console.log(trashBins);
