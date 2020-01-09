@@ -87,7 +87,7 @@ const trashBins = {
   black: [],
 };
 
-//1.
+//Solution-1.
 // trash.forEach(tr => {
 //   if (tr.material === 'paper' && tr.dirty === false) {
 //     trashBins.blue.push(tr.name);
@@ -103,16 +103,26 @@ const trashBins = {
 //   }
 // });
 
-//2.
+//Solution-2.
 // trash.forEach(tr => {
-//   if (tr.material === 'paper' && tr.dirty === false) {
-//     trashBins.blue.push(tr.name);
-//   } else {
-//     trashBins[binColorMap[tr.material]].push(tr.name);
-//   }
+//   //1.turnery operator
+//   tr.dirty
+//     ? trashBins.black.push(tr.name)
+//     : trashBins[binColorMap[tr.material]].push(tr.name);
+//   //2. if..else
+//   // if (tr.dirty === true) {
+//   //   trashBins.black.push(tr.name);
+//   // } else {
+//   //   trashBins[binColorMap[tr.material]].push(tr.name);
+//   // }
 // });
 
-//3.
-// trash.reduce((acc,val) => val.dirty? (acc.black.push(val.name)): (acc[binColorMap[val.material]].push(val.name)))
-
+//Solution-3. Best
+trash.reduce(
+  (acc, val) =>
+    val.dirty
+      ? (acc.black.push(val.name), acc)
+      : (acc[binColorMap[val.material]].push(val.name), acc),
+  trashBins
+);
 console.log(trashBins);
