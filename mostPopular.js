@@ -126,3 +126,11 @@ trash.reduce(
   trashBins
 );
 console.log(trashBins);
+
+console.log('     /|');
+console.log('    / |');
+console.log('   /  |');
+console.log('  /   |');
+console.log(' /    |');
+console.log('/_____|');
+console.log(3 + 4.5);
