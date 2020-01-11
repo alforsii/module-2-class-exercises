@@ -1,0 +1,146 @@
+1.-----------------------mongoimport--------------------------
+Download the .zip file from here, and then run the following commands:
+
+$ unzip movies.json.zip
+$ mongoimport --db video --collection movies --file movies.json --jsonArray
+
+You should be in the folder where you download the .zip file.
+-------------------------------------------------------------
+2.-------------------------------------------------------------
+Let’s download and import the following JSON file:
+
+https://raw.githubusercontent.com/mongodb/docs-assets/primer-dataset/primer-dataset.json
+
+-In the terminal, use mongoimport to import documents into the collection named restaurants.
+
+$ mongoimport --db restaurants --collection restaurants --drop --file primer-dataset.json
+-------------------------------------------------------------
+
+---------start mongo db ----------------------
+Last login: Fri Jan 10 07:18:56 on ttys003
+➜  ~ mongo
+>
+> show dbs
+My-first-database  0.000GB
+admin              0.000GB
+config             0.000GB
+local              0.000GB
+test1              0.000GB
+> show users
+> show profile
+db.system.profile is empty
+Use db.setProfilingLevel(2) will enable profiling
+Use db.system.profile.find() to show raw profile entries
+> help
+	db.help()                    help on db methods
+	db.mycoll.help()             help on collection methods
+	sh.help()                    sharding helpers
+	rs.help()                    replica set helpers
+	help admin                   administrative help
+	help connect                 connecting to a db help
+	help keys                    key shortcuts
+	help misc                    misc things to know
+	help mr                      mapreduce
+
+	show dbs                     show database names
+	show collections             show collections in current database
+	show users                   show users in current database
+	show profile                 show most recent system.profile entries with time >= 1ms
+	show logs                    show the accessible logger names
+	show log [name]              prints out the last segment of log in memory, 'global' is default
+	use <db_name>                set current database
+	db.foo.find()                list objects in collection foo
+	db.foo.find( { a : 1 } )     list objects in foo where a == 1
+	it                           result of the last line evaluated; use to further iterate
+	DBQuery.shellBatchSize = x   set default number of items to display on shell
+	exit                         quit the mongo shell
+> show logs
+global
+startupWarnings
+> db
+test
+> show dbs
+My-first-database  0.000GB
+admin              0.000GB
+config             0.000GB
+local              0.000GB
+test1              0.000GB
+> use test
+switched to db test
+> show collections
+> db.createCollection('media')
+{ "ok" : 1 }
+> show collections
+media
+> mongoimport --db test --collection media --file zips.json
+2020-01-10T18:44:59.893-0500 E  QUERY    [js] uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:14
+> mongoimport --db users --collection contacts --file contacts.json
+2020-01-10T18:45:44.261-0500 E  QUERY    [js] uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:14
+> db
+test
+> db.media.find()
+> show dbs
+My-first-database  0.000GB
+admin              0.000GB
+config             0.000GB
+local              0.000GB
+test               0.000GB
+test1              0.000GB
+video              0.000GB
+> use video
+switched to db video
+> show colections
+2020-01-10T18:56:12.854-0500 E  QUERY    [js] uncaught exception: Error: don't know how to show [colections] :
+shellHelper.show@src/mongo/shell/utils.js:1139:11
+shellHelper@src/mongo/shell/utils.js:790:15
+@(shellhelp2):1:1
+> show collections
+movies
+> db.movies.find().limit(2)
+{ "_id" : ObjectId("5e190ede1e6d55555df84678"), "title" : "The Shawshank Redemption", "year" : "1994", "director" : "Frank Darabont", "duration" : "2h 22min", "genre" : [ "Crime", "Drama" ], "rate" : "9.3" }
+{ "_id" : ObjectId("5e190ede1e6d55555df84679"), "title" : "The Godfather", "year" : "1972", "director" : "Francis Ford Coppola", "duration" : "2h 55min", "genre" : [ "Crime", "Drama" ], "rate" : "9.2" }
+> db.movies.find().limit(2).pretty()
+{
+	"_id" : ObjectId("5e190ede1e6d55555df84678"),
+	"title" : "The Shawshank Redemption",
+	"year" : "1994",
+	"director" : "Frank Darabont",
+	"duration" : "2h 22min",
+	"genre" : [
+		"Crime",
+		"Drama"
+	],
+	"rate" : "9.3"
+}
+{
+	"_id" : ObjectId("5e190ede1e6d55555df84679"),
+	"title" : "The Godfather",
+	"year" : "1972",
+	"director" : "Francis Ford Coppola",
+	"duration" : "2h 55min",
+	"genre" : [
+		"Crime",
+		"Drama"
+	],
+	"rate" : "9.2"
+}
+
+Query with Logical Operators: $and, $or, $ne, $nor
+$and conditions
+A compound query can specify conditions for more than one field in the collection’s documents.
+Implicitly, a logical AND conjunction connects the clauses of a compound query and selects the ones that match all the conditions.
+> db.movies.find({ $and : [ {year: '2000'},{rate: '8.5'}]})
+{ "_id" : ObjectId("5e190ede1e6d55555df846a6"), "title" : "Memento", "year" : "2000", "director" : "Christopher Nolan", "duration" : "1h 53min", "genre" : [ "Mystery", "Thriller" ], "rate" : "8.5" }
+{ "_id" : ObjectId("5e190ede1e6d55555df846aa"), "title" : "Gladiator", "year" : "2000", "director" : "Ridley Scott", "duration" : "2h 35min", "genre" : [ "Action", "Adventure", "Drama" ], "rate" : "8.5" }
+>
+> db.movies.find({ $or : [ {year:'2000'},{rate: '8.5'}]})
+
+
+
+
+
+
+
+
